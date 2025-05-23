@@ -1,0 +1,48 @@
+<template>
+  <div class="tender-card">
+    <router-link :to="`/tender/${tender.id}`" class="tender-card__link">
+      <h2 class="tender-card__title">{{ title }}</h2>
+      <p class="tender-card__description">{{ description }}</p>
+    </router-link>
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { Tender } from '@/types/tender'
+
+defineProps<{
+  tender: Tender
+  title: string
+  description: string
+}>()
+</script>
+
+<style lang="scss" scoped>
+.tender-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: box-shadow 0.3s ease;
+
+  &__link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  &__title {
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem;
+  }
+
+  &__description {
+    font-size: 0.95rem;
+    color: #666;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+</style>
