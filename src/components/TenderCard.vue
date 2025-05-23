@@ -1,31 +1,25 @@
-<template>
-  <div class="tender-card" @click="goToDetail">
-    <router-link :to="`/tender/${tender.id}`" class="tender-card__link">
-      <h2 class="tender-card__title">{{ title }}</h2>
-      <p class="tender-card__description">{{ description }}</p>
-    </router-link>
-  </div>
-</template>
-
 <script setup lang="ts">
-import type { Tender } from '@/types/tender'
 import { useRouter } from 'vue-router'
+import type { Tender } from '@/types/tender'
 
+const props = defineProps<{ tender: Tender }>()
 const router = useRouter()
 
-const props = defineProps<{
-  tender: Tender
-  title: string
-  description: string
-}>()
-
-const goToDetail = () => {
+function goToDetail() {
   router.push({
-    path: `/tender/${props.tender.id}`,
-    state: { tender: props.tender }, // Переход с передачей объекта
+    name: 'TenderDetail', // ← имя маршрута
+    params: { id: props.tender.id },
+    state: { tender: props.tender }, // ← передаём объект
   })
 }
 </script>
+
+<template>
+  <div class="tender-card" @click="goToDetail">
+    <h3>{{ props.tender.title }}</h3>
+    <p>{{ props.tender.description || '—' }}</p>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .tender-card {

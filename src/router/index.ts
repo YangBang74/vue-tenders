@@ -6,7 +6,12 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', component: TenderList },
-    { path: '/tender/:id', component: TenderDetail, props: true },
+    {
+      path: '/tender/:id',
+      name: 'TenderDetail',
+      component: TenderDetail,
+      props: true,
+    },
   ],
 })
 
