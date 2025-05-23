@@ -1,5 +1,5 @@
 <template>
-  <div class="tender-card">
+  <div class="tender-card" @click="goToDetail">
     <router-link :to="`/tender/${tender.id}`" class="tender-card__link">
       <h2 class="tender-card__title">{{ title }}</h2>
       <p class="tender-card__description">{{ description }}</p>
@@ -9,12 +9,19 @@
 
 <script setup lang="ts">
 import type { Tender } from '@/types/tender'
+import { useRouter } from 'vue-router'
 
-defineProps<{
+const router = useRouter()
+
+const props = defineProps<{
   tender: Tender
   title: string
   description: string
 }>()
+
+const goToDetail = () => {
+  router.push(`/tender/${props.tender.id}`)
+}
 </script>
 
 <style lang="scss" scoped>

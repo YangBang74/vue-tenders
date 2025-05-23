@@ -15,7 +15,7 @@
     </Transition>
 
     <Paginator
-      v-if="tenders"
+      v-if="totalTenders > 0"
       :total="totalTenders"
       :per-page="30"
       :current="currentPage"
@@ -40,7 +40,7 @@ const fetchTenders = async () => {
   try {
     const response = await fetch(`https://api.test-webest.ru/list/?page=${currentPage.value}`)
     const data = await response.json()
-    tenders.value = data.results
+    tenders.value = data.data
     totalTenders.value = data.total
     scrollToTop()
   } catch (err) {
