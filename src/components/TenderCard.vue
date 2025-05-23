@@ -20,7 +20,10 @@ const props = defineProps<{
 }>()
 
 const goToDetail = () => {
-  router.push(`/tender/${props.tender.id}`)
+  router.push({
+    path: `/tender/${props.tender.id}`,
+    state: { tender: props.tender }, // Переход с передачей объекта
+  })
 }
 </script>
 
@@ -29,6 +32,8 @@ const goToDetail = () => {
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 12px;
+  max-height: 200px;
+  overflow: hidden;
   padding: 1rem;
   transition: box-shadow 0.3s ease;
 

@@ -5,7 +5,7 @@
     <Transition name="fade" mode="out-in">
       <div class="tenders__grid" :key="currentPage">
         <TenderCard
-          v-for="tender in displayedTenders"
+          v-for="tender in displayedTenders.splice(0, 30)"
           :key="tender.id"
           :tender="tender"
           :title="tender.title"
@@ -41,6 +41,7 @@ const fetchTenders = async () => {
     const response = await fetch(`https://api.test-webest.ru/list/?page=${currentPage.value}`)
     const data = await response.json()
     tenders.value = data.data
+    tenders.value.reverse()
     totalTenders.value = data.total
     scrollToTop()
   } catch (err) {

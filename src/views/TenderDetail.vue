@@ -3,8 +3,6 @@
     <h1>{{ tender.title }}</h1>
     <p>{{ tender.description }}</p>
 
-    <!-- Добавь другие поля по API, если нужно -->
-
     <button @click="goBack">Назад</button>
   </section>
   <p v-else>Загрузка...</p>
@@ -22,9 +20,11 @@ const tender = ref<Tender | null>(null)
 
 const fetchTender = async (id: string) => {
   try {
-    const res = await fetch(`https://api.test-webest.ru/detail/${id}`)
+    const res = await fetch(`https://api.test-webest.ru/list/?page=1/date/${id}`)
     if (!res.ok) throw new Error('Ошибка загрузки тендера')
+
     tender.value = await res.json()
+    console.log(tender.value)
   } catch (err) {
     console.error(err)
     tender.value = null
