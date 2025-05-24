@@ -1,44 +1,59 @@
 <template>
-  <section class="tender-detail" v-if="tender">
-    <h1>{{ tender.title }}</h1>
-    <p>{{ tender.description }}</p>
-    <!-- Остальные поля из tender … -->
-
-    <button @click="goBack">Назад</button>
-  </section>
-
-  <p v-else>Не найдены данные тендера. <router-link to="/">Вернуться к списку</router-link></p>
+  <PageLoader v-if="isLoading" />
+  <div>
+    <div class="container">
+      <section class="tender-detail" v-if="tender">
+        <h1>{{ tender.title }}</h1>
+        <div class="genres">
+          <span class="genre">
+            {{ tender.category }}
+          </span>
+        </div>
+        <p>{{ tender.description }}</p>
+        <router-link to="/">
+          <button type="button">Назад</button>
+        </router-link>
+      </section>
+      <p v-if="error">
+        Не найдены данные тендера. <router-link to="/">Вернуться к списку</router-link>
+      </p>
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import type { Tender } from '@/types/tender'
+<script setup>
+import PageLoader from '@/components/UI/PageLoader.vue'
+import { ref, onMounted, defineProps } from 'vue'
+import { RouterLink } from 'vue-router'
 
-const route = useRoute()
-const router = useRouter()
-const tender = ref<Tender | null>(null)
-
-onMounted(() => {
-  // Vue сохраняет state при переходе через router.push(...)
-  const stateTender = window.history.state?.tender as Tender | undefined
-
-  if (stateTender) {
-    tender.value = stateTender
-  } else {
-    // Если попали напрямую (например, F5) — редирект на список
-    router.replace({ name: 'TenderList' })
-  }
+const props = defineProps({
+  id: String,
 })
 
-function goBack() {
-  router.back()
+const tender = ref(null)
+const isLoading = ref(false)
+const error = ref(null)
+
+async function fetchTender(id) {
+  isLoading.value = true
+  try {
+    const res = await fetch(`https://api.test-webest.ru/element/?id=${id}`)
+    if (!res.ok) throw new Error('Ошибка сети')
+    tender.value = await res.json()
+  } catch (e) {
+    error.value = e.message
+  } finally {
+    isLoading.value = false
+  }
 }
+
+onMounted(() => {
+  fetchTender(props.id)
+})
 </script>
 
 <style lang="scss" scoped>
 .tender-detail {
-  max-width: 800px;
   margin: 2rem auto;
 
   h1 {
@@ -47,9 +62,20 @@ function goBack() {
   }
 
   button {
+    background-color: #000;
+    color: #fff;
+
     margin-top: 2rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 3rem;
     cursor: pointer;
+  }
+}
+.genres {
+  margin: 20px 0 25px;
+  .genre {
+    background-color: #e9e9e9;
+    padding: 0.3125rem 0.625rem;
+    border-radius: 10px;
   }
 }
 </style>

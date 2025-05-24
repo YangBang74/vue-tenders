@@ -21,14 +21,21 @@ function onSubmit() {
 
 <style scoped>
 .search-form {
+  margin: 10px 0;
   display: flex;
-  gap: 0.5rem;
 }
 input {
+  background-color: rgb(236, 236, 236);
+  width: 100%;
   flex: 1;
   padding: 0.5rem;
+  height: 40px;
 }
 button {
+  height: 40px;
+  background-color: #000;
+  color: #fff;
+  width: 20%;
   padding: 0.5rem 1rem;
 }
 </style>

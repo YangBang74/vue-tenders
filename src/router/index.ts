@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import TenderList from '../views/TenderList.vue'
-import TenderDetail from '../views/TenderDetail.vue'
+import Home from '@/views/Home.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', component: TenderList },
+    { path: '/', name: 'Home', component: Home },
+    // router/index.ts
     {
-      path: '/tender/:id',
-      name: 'TenderDetail',
-      component: TenderDetail,
+      path: '/tenders/:id',
+      name: 'TenderDetails',
+      component: () => import('@/views/TenderDetail.vue'),
       props: true,
     },
   ],

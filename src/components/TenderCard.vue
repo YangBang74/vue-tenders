@@ -3,34 +3,25 @@ import { useRouter } from 'vue-router'
 import type { Tender } from '@/types/tender'
 
 const props = defineProps<{ tender: Tender }>()
-const router = useRouter()
-
-function goToDetail() {
-  router.push({
-    name: 'TenderDetail', // ← имя маршрута
-    params: { id: props.tender.id },
-    state: { tender: props.tender }, // ← передаём объект
-  })
-}
 </script>
 
 <template>
-  <div class="tender-card" @click="goToDetail">
-    <h3>{{ props.tender.title }}</h3>
-    <p>{{ props.tender.description || '—' }}</p>
+  <div class="card">
+    <router-link :to="{ name: 'TenderDetails', params: { id: tender.id } }" class="card-title">
+      {{ props.tender.title }}
+    </router-link>
+    <p class="card__description">{{ props.tender.description || '—' }}</p>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.tender-card {
+.card {
   background: #fff;
   border: 1px solid #ccc;
-  border-radius: 12px;
-  max-height: 200px;
+  max-height: 400px;
   overflow: hidden;
-  padding: 1rem;
-  transition: box-shadow 0.3s ease;
-
+  padding: 0.625rem;
+  transition: box-shadow 0.2s ease;
   &__link {
     text-decoration: none;
     color: inherit;
@@ -43,12 +34,17 @@ function goToDetail() {
   }
 
   &__description {
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     color: #666;
+    display: -webkit-box;
+    -webkit-line-clamp: 6; // ограничиваем 3 строками
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   }
 }
 </style>

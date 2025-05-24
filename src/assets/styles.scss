@@ -1,3 +1,11 @@
+@import 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap';
+@import 'normalize';
+
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  padding: 0 100px;
+  margin: 0 auto;
 }
